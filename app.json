@@ -1,25 +1,45 @@
 {
   "expo": {
-    "name": "cofre",
-    "slug": "cofre",
+    "name": "Cofre",
+    "slug": "cofre-senhas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0B0B14",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B0B14"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.cofre.senhas",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "O Cofre usa o Face ID para proteger e revelar suas senhas."
+      }
     },
     "android": {
+      "package": "com.cofre.senhas",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0B0B14",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
+      "allowBackup": false,
+      "permissions": ["USE_BIOMETRIC", "USE_FINGERPRINT"],
       "predictiveBackGestureEnabled": false
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "plugins": [
+      [
+        "expo-local-authentication",
+        { "faceIDPermission": "O Cofre usa o Face ID para proteger e revelar suas senhas." }
+      ],
+      [
+        "expo-secure-store",
+        { "configureAndroidBackup": true, "faceIDPermission": "O Cofre usa o Face ID para proteger e revelar suas senhas." }
+      ]
+    ]
   }
 }
