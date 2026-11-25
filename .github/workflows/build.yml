@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   android:
     name: APK Android
@@ -61,3 +64,27 @@ jobs:
         with:
           name: Cofre-ipa
           path: Cofre-sem-assinatura.ipa
+
+  publicar:
+    name: Publicar para download
+    needs: [android, ios]
+    if: always() && needs.android.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: arquivos
+          merge-multiple: true
+      - name: Renomear
+        run: |
+          cd arquivos
+          mv *.apk Cofre.apk
+          ls -la
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Cofre v1.0.${{ github.run_number }}
+          body: |
+            **Android:** baixe o `Cofre.apk` pelo celular e instale.
+            **iPhone:** baixe o `Cofre-sem-assinatura.ipa` no PC e instale com o Sideloadly.
+          files: arquivos/*
